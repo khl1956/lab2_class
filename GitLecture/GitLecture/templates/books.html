@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 class="display-4">Books</h1>
+
+{% if error %}
+
+<div class="alert alert-danger mt-sm-2" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+
+<form action="{{ url_for('books') }}" method=post>
+
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        {{ form.book_author.label }}
+        {{ form.book_author(class_="form-control") }}
+    </div>
+
+
+    <div class="form-group">
+        {{ form.isbn.label }}
+        {{ form.isbn(class_="form-control") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.year.label }}
+        {{ form.year(class_="form-control") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.book_category.label }}
+        {{ form.book_category(class_="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-sm-4">
+        Add book
+    </button>
+
+    {% if errors %}
+
+    <div class="alert alert-danger mt-sm-2" role="alert">
+        {{ errors }}
+    </div>
+
+    {% endif %}
+
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Author</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Year</th>
+            <th scope="col">Category</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in books %}
+        <tr>
+            <th scope="row"> {{item.book_id}}</th>
+            <td>{{item.book_author}}</td>
+            <td>{{item.book_isbn}}</td>
+            <td>{{item.book_year}}</td>
+            <td>{{item.book_category}}</td>
+            <td>
+                <div class="row">
+                    <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="{{ item.user_id }}">
+                        Delete
+                    </button>
+                </div>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

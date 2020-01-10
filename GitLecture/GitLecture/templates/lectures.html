@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 class="display-4">Lectures</h1>
+
+{% if deleteError %}
+
+<div class="alert alert-danger mt-sm-2" role="alert">
+    {{ deleteError }}
+</div>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Lecture Name</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Git Link</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in lectures %}
+        <tr>
+            <th scope="row"> {{item.lecture_id}}</th>
+            <td>{{item.lecture_name}}</td>
+            <td>{{item.user_login}}</td>
+            <td>{{item.subject_name}}</td>
+            <td><a class="btn btn-outline-secondary" href="{{"https://gist.github.com/" + item.gitgist_id }}" target="_blank">{{"https://gist.github.com/" + item.gitgist_id }}</a></td>
+            <td>
+                <div class="row">
+                    <a href="/lecture-read/{{item.lecture_id}}" class="btn btn-success mr-sm-4">Read</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="{{ item.lecture_id }}">Delete</button>
+                </div>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form id="deleteForm" method=post>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete lecture</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form.hidden_tag() }}
+
+
+                    <div class="form-group">
+                        {{ form.user_login.label }}
+                        {{ form.user_login(class_="form-control") }}
+
+                        {% if form.user_login.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in form.user_login.errors %}
+                            <div>{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {%endif%}
+                    </div>
+
+
+                    <div class="form-group">
+                        {{ form.user_password.label }}
+                        {{ form.user_password(class_="form-control") }}
+
+                        {% if form.user_login.errors%}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in form.user_password.errors %}
+                            <div>{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('whatever')
+        var modal = $(this)
+        $('#deleteForm').attr("action", "/lecture-delete/" + id)
+    })
+</script>
+
+
+{% endblock %}

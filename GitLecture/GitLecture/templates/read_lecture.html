@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h3 class="display-4">Read lecture - {{ lectureName }}</h3>
+
+<div class="mt-sm-4 mb-sm-4">
+    <h4 class="text-muted">Tags:</h4>
+
+    {% for tag in lectureMap.keys() %}
+    {% if tag %}
+    <div class="mb-sm-1">
+        <a class="btn btn-outline-secondary" href="{{ url_for('lectureRead', lectureId = lectureId) + '#' + tag }}">{{ tag }}</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% for tag, text in lectureMap.items() %}
+    <h3 id="{{ tag }}">{{ tag }}</h3>
+    <hr />
+    <p class="text-justify" style="white-space:pre-line">
+        {{ text }}
+    </p>
+    <hr />
+{% endfor %}
+
+{% endblock %}
