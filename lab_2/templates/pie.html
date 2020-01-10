@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wiki</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+                <img src="https://visualpharm.com/assets/299/Wikipedia-595b40b85ba036ed117dc5e7.svg" width="30" height="30" alt="Wiki">
+        </div>
+</nav>
+
+<div class="container">
+    {% block content %}<br>
+    <h1>Welcome to KPI Wikipedia!</h1>
+    {% endblock %}
+</div>
+
+
+        <div class="container pt-md-2">
+        <div class="row">
+            <h2>Розподіл авто за кольором</h2>
+        </div>
+    </div>
+        <div id="pie">
+        </div>
+        <script src="{{ url_for('static', filename='js/d3.v5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+
+    <script type="text/javascript">
+        var graphs = {{json | safe}};
+
+        if (graphs["pie"]){
+            Plotly.plot("pie",
+                graphs["pie"],{});
+                }
+        else{
+            document.getElementById('pie').innerHTML = '<p> no plots</p>';
+        }
+    </script>
+
+</body>
+</html>

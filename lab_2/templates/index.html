@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wiki</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+                <img src="https://visualpharm.com/assets/299/Wikipedia-595b40b85ba036ed117dc5e7.svg" width="30" height="30" alt="Wiki">
+        </div>
+</nav>
+
+<div class="container">
+    {% block content %}<br>
+    <h1>Welcome to KPI Wikipedia!</h1>
+    {% endblock %}
+</div>
+<div class="card">
+    <form class="form" method = post >
+
+    <div class="container">
+        <div class="row">
+        <div class="form-group">
+            {{ form.login_id.label }}
+            {{ form.login_id(class_="form-control") }}
+
+            {% if form.login_id.errors%}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in form.login_id.errors %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {%endif%}
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class_="form-control") }}
+
+            {% if form.password.errors%}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in form.password.errors %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {%endif%}
+        </div>
+        </div>
+        <div class="row pt-md-2">
+        {{ form.log_in(class_="btn btn-success") }}
+        </div>
+    </div>
+    </form>
+    <div class="container">
+        <div class="row pt-md-2">
+            {% if error %}
+                <p class="error"><strong>Error:</strong> {{ error }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand">
+                <img src="https://visualpharm.com/assets/299/Wikipedia-595b40b85ba036ed117dc5e7.svg" width="30" height="30" alt="Wiki">
+            </a>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('search') }}">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('student') }}">Student</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('discipline') }}">Discipline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Exit</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+            <form class="form-inline my-2 my-lg-0"  action = "/{{action}}" method = post>
+                <div class="container pt-md-3">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col px-sm-1">{{ form.search_request.label }}</div>
+                            <div class="col px-sm-1">{{ form.search_request(class_="form-control") }}</div>
+                            <div class="col px-sm-1">{{ form.search_by_tags(class_="btn btn-success") }}</div>
+                            {% if form.search_request.errors%}
+                            <div class="alert alert-danger" role="alert">
+                                {% for message in form.search_request.errors %}
+                                <div>{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+                <div class="container pt-md-3">
+                    <div class="row">
+                        <div class="col-sm-auto px-md-3 border">{{ form.programming_tag.label }}
+                        {{ form.programming_tag }}</div>
+                        <div class="col-sm-auto px-md-3 border">{{ form.algorithm_tag.label }}
+                        {{ form.algorithm_tag }}</div>
+                        <div class="col-sm-auto px-md-3 border">{{ form.graphics_tag.label }}
+                        {{ form.graphics_tag }}</div>
+                        <div class="col-sm-auto px-md-3 border">{{ form.databases_tag.label }}
+                        {{ form.databases_tag }}</div>
+                        <div class="col-sm-auto px-md-3 border">{{ form.math_tag.label }}
+                        {{ form.math_tag }}</div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <h4>Результати по назві дисципліни:</h4>
+                {% for res_filter in res_filter %}
+                                <div class="container pt-md-3">
+                        <div class="row pt-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{ res_filter.discipline_name }}
+                                </div>
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">{{ res_filter.discipline_data}}</a>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+
+                <div class="container">
+                    <h4>Результати тегам:</h4>
+                {%  for result_final in result_final %}
+                    <div class="container pt-md-3">
+                        <div class="row pt-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{ result_final.discipline_name }}
+                                </div>
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">{{ result_final.result_data}}</a>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </form>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand">
+                <img src="https://visualpharm.com/assets/299/Wikipedia-595b40b85ba036ed117dc5e7.svg" width="30" height="30" alt="Wiki">
+            </a>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('search') }}">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('student') }}">Student</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('discipline') }}">Discipline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Exit</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pt-md-3"><div class="row"><h2>Search panel:</h2></div></div>
+    <form class="form"  method = post >
+        <div class="container pt-md-2">
+            <div class="row">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ searchrequest.student_id.label }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ searchrequest.student_id(class_="form-control")}}</td>
+                            <td><td> {{searchrequest.submit(class_="btn btn-success") }}</td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="container pt-md-2">
+        <div class="row">
+            <h2>1) Частота поисковых запросов по студенту (scatter plot)</h2>
+        </div>
+    </div>
+            <div id="bar">
+            </div>
+
+    <div class="container pt-md-2">
+        <div class="row">
+            <h2>2) Часто выдаваемые результаты поиска по студенту(pie plot)</h2>
+        </div>
+    </div>
+            <div id="pie">
+            </div>
+
+    <script src="{{ url_for('static', filename='js/d3.v5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+
+    <script type="text/javascript">
+        var graphs = {{json | safe}};
+        if (graphs["bar"]){
+            Plotly.plot("bar",
+                graphs["bar"],{});
+                }
+        else{
+            document.getElementById('bar').innerHTML = '<p> no plots</p>';
+        }
+
+        if (graphs["pie"]){
+            Plotly.plot("pie",
+                graphs["pie"],{});
+                }
+        else{
+            document.getElementById('pie').innerHTML = '<p> no plots</p>';
+        }
+        {#var trace1 = {#}
+        {#  x: [1, 2, 3, 4],#}
+        {#  y: [10, 15, 13, 17],#}
+        {#  type: 'scatter'};#}
+        {##}
+        {#var trace2 = {#}
+        {#  x: [1, 2, 3, 4],#}
+        {#  y: [16, 5, 11, 9],#}
+        {#  type: 'scatter'};#}
+        {##}
+        {#var data = [trace1, trace2];#}
+        {##}
+        {#Plotly.newPlot('myDiv', data);#}
+    </script>
+</body>
+</html>
