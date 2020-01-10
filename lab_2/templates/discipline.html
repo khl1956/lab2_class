@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand">
+                <img src="https://visualpharm.com/assets/299/Wikipedia-595b40b85ba036ed117dc5e7.svg" width="30" height="30" alt="Wiki">
+            </a>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('search') }}">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('student') }}">Student</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('discipline') }}">Discipline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Exit</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+{% block content %}
+
+<form class="form"  action = "/{{action}}" method = get >
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">discipline id</th>
+            <th scope="col">discipline name</th>
+            <th scope="col">discipline data</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for discipline in disciplines%}
+        <tr>
+            <td> {{discipline.discipline_id}}</td>
+            <td> {{discipline.discipline_name}}</td>
+            <td> {{discipline.discipline_data}}</td>
+            <td>
+                <a href="/edit_discipline?discipline_id={{discipline.discipline_id}}" title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_discipline" data-discipline_id="{{discipline.discipline_id}}">
+                        Edit
+                    </button>
+                </a>
+                <a href="/delete_discipline?discipline_id={{discipline.discipline_id}}" title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_discipline" data-discipline_id="{{discipline.discipline_id}}">
+                        Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_discipline" title="new discipline button">
+                    <button type="button" class="btn btn-success" name="btn_new_discipline">New discipline</button>
+                </a>
+            </td>
+{#            {% if not deleted %}#}
+{#            <td>#}
+{#                <a href="/student?deleted=True" title="all students button">#}
+{#                    <button type="button" class="btn btn-success" name="btn_all_students">Show deleted students</button>#}
+{#                </a>#}
+{#            </td>#}
+{#            {% endif %}#}
+        </tr>
+        </tbody>
+    </table>
+</div>
+</form>
+
+{#<!--<script src="{{ url_for('static', filename='js/skill.js') }}"></script>-->#}
+
+{% endblock %}
+
+</body>
+</html>

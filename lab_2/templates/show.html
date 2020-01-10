@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wiki</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+                <img src="https://visualpharm.com/assets/299/Wikipedia-595b40b85ba036ed117dc5e7.svg" width="30" height="30" alt="Wiki">
+        </div>
+</nav>
+
+<div class="container">
+    {% block content %}<br>
+    <h1>Welcome to KPI Wikipedia!</h1>
+    {% endblock %}
+</div>
+<div class="card">
+    <form class="form" method = get >
+        <h3>Comitted!</h3>
+    <div class="table-responsive">
+    <table class="table">
+    <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.number }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.year }}</td>
+                <td>{{ car.color }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    </form>
+
+</div>
+</body>
+</html>
