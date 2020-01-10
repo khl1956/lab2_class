@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    
+    <h1 class="display-4">Create lecture</h1>
+    <form action="{{ url_for('createLecture') }}" method=post>
+
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.lecture_name.label }}
+            {{ form.lecture_name(class_="form-control") }}
+        </div>
+
+
+        <div class="form-group">
+            {{ form.user_name.label }}
+            {{ form.user_name(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.user_password.label }}
+            {{ form.user_password(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.subject.label }}
+            {{ form.subject(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.lecture_text.label }}
+            {{ form.lecture_text(class_="form-control", rows='15') }}
+        </div>
+
+        <div class="mb-sm-4">
+            <input id="tagInput" type="text" class="form-control mr-sm-4" placeholder="Tag" />
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="addTadToText()">
+            Add tag
+        </button>
+
+        <button type="submit" class="btn btn-primary">
+            Save Lecture
+        </button>
+
+        {% if errors %}
+
+        <div class="alert alert-danger mt-sm-2" role="alert">
+            {{ errors }}
+        </div>
+
+        {% endif %}
+
+    </form>
+
+<script>
+    function addTadToText() {
+        var text = $('#tagInput').val()
+        var lecture_text = $('#lecture_text').val()
+
+        var isLastEnter = lecture_text[lecture_text.length - 1] === '\n'
+
+        var enter = ''
+        if (!isLastEnter && lecture_text.length != 0) {
+            enter = '\n'
+        }
+
+        $('#lecture_text').val(lecture_text + enter + '[#' + text + ']' + '\n')
+        $('#tagInput').val('')
+    }
+</script>
+
+{% endblock %}

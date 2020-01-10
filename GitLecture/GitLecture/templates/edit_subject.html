@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h1 class="display-4">Edit subject - {{ subjectName }}</h1>
+
+<form action="{{ url_for('subjectEdit', subjectId = subjectId) }}" method=post>
+
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        {{ form.subject_name.label }}
+        {{ form.subject_name(class_="form-control") }}
+    </div>
+
+
+    <div class="form-group">
+        {{ form.subject_description.label }}
+        {{ form.subject_description(class_="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Edit subject
+    </button>
+
+    {% if errors %}
+
+    <div class="alert alert-danger mt-sm-2" role="alert">
+        {{ errors }}
+    </div>
+
+    {% endif %}
+
+</form>
+
+{% endblock %}

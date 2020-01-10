@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<h1 class="display-4">Dashboard</h1>
+<canvas id="myChart" width="200" height="100"></canvas>
+<script>
+    var ctx = document.getElementById('myChart');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{{ subjects | safe }} ],
+        datasets: [{
+            label: 'Subject name',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [{{ subjects_values | safe }}]
+        }]
+    },
+    options: {
+        scales: {
+        xAxes: [{
+          gridLines: {
+            display: false
+          },
+          scaleLabel: {
+            display: true,
+          }
+        }],
+        yAxes: [{
+          stacked: true,
+          ticks: {
+              stepSize: 1,
+              min: 0
+          },
+          scaleLabel: {
+            display: true,
+          }
+        }],
+
+    }
+    }});
+</script>
+
+{% endblock %}

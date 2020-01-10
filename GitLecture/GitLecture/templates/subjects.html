@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 class="display-4">Subjects</h1>
+<form action="{{ url_for('subjects') }}" method=post>
+
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        {{ form.subject_name.label }}
+        {{ form.subject_name(class_="form-control") }}
+    </div>
+
+
+    <div class="form-group">
+        {{ form.subject_description.label }}
+        {{ form.subject_description(class_="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-sm-4">
+        Add subject
+    </button>
+
+    {% if errors %}
+
+    <div class="alert alert-danger mt-sm-2" role="alert">
+        {{ errors }}
+    </div>
+
+    {% endif %}
+
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Subject Description</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in subjects %}
+        <tr>
+            <th scope="row"> {{item.subject_id}}</th>
+            <td>{{item.subject_name}}</td>
+            <td>{{item.subject_description}}</td>
+            <td>
+                <div class="row">
+                    <a class="btn btn-success mr-sm-4" href="{{ url_for('subjectEdit', subjectId = item.subject_id) }}">Edit</a>
+                    <form action="{{ url_for('subjectDelete', subjectId = item.subject_id) }}" method=post>
+                        {{ deleteForm.hidden_tag() }}
+                        <button type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
